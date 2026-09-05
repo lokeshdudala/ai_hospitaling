@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import Layout from "../components/Layout";
 import { FaUserMd, FaTrash, FaPlus } from "react-icons/fa";
 import { toast } from "react-toastify";
@@ -28,7 +28,7 @@ function DoctorManagement() {
 
 
   // Fetch Doctors (include inactive for management)
-  const fetchDoctors = async () => {
+  const fetchDoctors = useCallback(async () => {
     try {
       const res = await API.get("/doctors?includeInactive=true", {
         headers: {
@@ -39,11 +39,11 @@ function DoctorManagement() {
     } catch (error) {
       console.error("Failed to fetch doctors");
     }
-  };
+  }, [token]);
 
   useEffect(() => {
     fetchDoctors();
-  }, []);
+  }, [fetchDoctors]);
 
   // Add Doctor
   const addDoctor = async () => {

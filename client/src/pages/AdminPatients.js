@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import API from "../services/api";
 import { toast } from "react-toastify";
 
@@ -9,7 +9,7 @@ function AdminPatients() {
   const [search, setSearch] = useState("");
   const [confirmAction, setConfirmAction] = useState(null);
 
-  const fetchPatients = async () => {
+  const fetchPatients = useCallback(async () => {
     try {
       const res = await API.get("/users/patients", {
         headers: { Authorization: `Bearer ${token}` },
@@ -18,11 +18,11 @@ function AdminPatients() {
     } catch {
       toast.error("Failed to fetch patients");
     }
-  };
+  }, [token]);
 
   useEffect(() => {
     fetchPatients();
-  }, []);
+  }, [fetchPatients]);
 
   const handleAction = async (type, id) => {
     try {

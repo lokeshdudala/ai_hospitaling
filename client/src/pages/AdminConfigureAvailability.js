@@ -98,7 +98,8 @@ function AdminConfigureAvailability() {
       }
     };
 
-    fetchDoctor();
+       fetchDoctor();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, token]);
 
   const toggleDay = (day) => {

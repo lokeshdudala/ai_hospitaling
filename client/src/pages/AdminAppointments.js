@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import Layout from "../components/Layout";
 import API from "../services/api";
 import { toast } from "react-toastify";
@@ -8,7 +8,7 @@ function AdminAppointments() {
   const [loadingId, setLoadingId] = useState(null);
   const token = localStorage.getItem("token");
 
-  const fetchAppointments = async () => {
+  const fetchAppointments = useCallback(async () => {
     try {
       const res = await API.get("/appointments", {
         headers: { Authorization: `Bearer ${token}` },
@@ -17,11 +17,11 @@ function AdminAppointments() {
     } catch (error) {
       toast.error("Failed to fetch appointments ❌");
     }
-  };
+  }, [token]);
 
   useEffect(() => {
     fetchAppointments();
-  }, []);
+  }, [fetchAppointments]);
 
   const updateStatus = async (id, status) => {
     try {

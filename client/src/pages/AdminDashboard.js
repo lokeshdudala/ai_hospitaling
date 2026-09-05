@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useNavigate as useNav } from "react-router-dom";
 import Layout from "../components/Layout";
 import API from "../services/api";
@@ -40,7 +40,7 @@ function AdminDashboard() {
     fee: "",
   });
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
       const [doctorsRes, patientsRes, apptsRes] = await Promise.all([
         API.get("/doctors", { headers: { Authorization: `Bearer ${token}` } }),
@@ -58,11 +58,11 @@ function AdminDashboard() {
       toast.error("Failed to fetch dashboard stats");
       setLoading(false);
     }
-  };
+  }, [token]);
 
   useEffect(() => {
     fetchData();
-  }, [token]);
+  }, [fetchData]);
 
   const playBeep = () => {
     try {

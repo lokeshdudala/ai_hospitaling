@@ -337,12 +337,13 @@ function HealthChatBot({ isPage = false }) {
 
   const location = useLocation();
 
-  useEffect(() => {
+    useEffect(() => {
     if (isPage && location.state?.prefilledQuery) {
       handleSend(location.state.prefilledQuery);
       // Clear location state so it doesn't re-trigger on reload
       window.history.replaceState({}, document.title);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location, isPage]);
 
   // Floating chat widget mode
